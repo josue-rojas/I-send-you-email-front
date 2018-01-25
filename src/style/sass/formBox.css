@@ -1,0 +1,58 @@
+.form-box-wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; }
+  .form-box-wrapper .form-box {
+    max-width: 50vh;
+    min-width: 100px;
+    min-height: 100px;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 25px;
+    border-radius: 5px;
+    max-width: 95%;
+    text-align: center; }
+    .form-box-wrapper .form-box .title {
+      font-size: 1.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+      padding-bottom: 7px; }
+    .form-box-wrapper .form-box form {
+      padding-left: 7px;
+      padding-right: 7px;
+      margin: 10px auto;
+      display: flex;
+      flex-direction: column; }
+      .form-box-wrapper .form-box form label {
+        text-align: left;
+        margin-top: 7px; }
+      .form-box-wrapper .form-box form input, .form-box-wrapper .form-box form textarea {
+        outline: none;
+        width: 100%;
+        min-height: 30px;
+        margin-top: 0;
+        outline: none;
+        border: 1px solid #ddd; }
+      .form-box-wrapper .form-box form .submit {
+        background-color: red;
+        border: 1px solid red;
+        color: white;
+        cursor: pointer;
+        margin-top: 5px;
+        transition: 400ms; }
+        .form-box-wrapper .form-box form .submit:hover {
+          background-color: blue;
+          border: 1px solid blue; }
+      .form-box-wrapper .form-box form .error {
+        border: 1px solid #ff4405;
+        box-shadow: 0 0 2px #ff4405; }
+      .form-box-wrapper .form-box form .good {
+        border: 1px solid #04df37;
+        box-shadow: 0 0 2px #04df37; }
+    .form-box-wrapper .form-box .tiny-text {
+      font-size: .5rem; }
+      .form-box-wrapper .form-box .tiny-text a {
+        color: inherit; }
+        .form-box-wrapper .form-box .tiny-text a:hover {
+          color: rgba(255, 255, 255, 0.7); }

@@ -1,0 +1,8 @@
+{
+  "short_name": "ISYE",
+  "name": "I Send you E-mail",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
