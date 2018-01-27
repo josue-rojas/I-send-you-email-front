@@ -20,4 +20,4 @@ yarn-error.log*
 
 
 #sass
-/style/sass/*.css
+/src/style/sass/*.css

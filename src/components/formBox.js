@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import '../style/sass/formBox.css';
+import Loading from './loading';
 
 export default class FormBox extends Component{
   constructor(props){
@@ -9,6 +10,8 @@ export default class FormBox extends Component{
       emailClass: '',
       messageValue: '',
       messageClass: '',
+      formState: 'form-box',
+      isLoading: false
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleEmail = this.handleEmail.bind(this);
@@ -16,51 +19,78 @@ export default class FormBox extends Component{
   }
 
   handleSubmit(event){
-    console.log('submit pressed');
+    if(this.state.emailClass === 'good' && this.state.messageClass === 'good'){
+      this.setState({isLoading: true})
+      this.props.submitChange(true);
+      fetch('https://josueemail.herokuapp.com/email', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: this.state.emailValue,
+          message: this.state.messageValue,
+        })
+      }).then((responce) =>{
+        if(responce.ok){
+          this.setState({isLoading: false});
+          this.props.submitChange(false);
+
+        }
+      })
+    }
+    else{
+      this.setState({
+        formState: 'form-box shake',
+        isLoading: false,
+      })
+      setTimeout(()=> {this.setState({formState: 'form-box'})}, 200)
+    }
     event.preventDefault();
   }
 
   handleEmail(event){
     // https://www.w3resource.com/javascript/form/email-validation.php
     // email regex (no time wasted for me.....)
-    let emailGood = 'good';
+    let emailClass = 'good';
     if(event.target.value.length === 0 || !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(event.target.value))){
-      emailGood = 'error';
+      emailClass = 'error';
     }
     this.setState({
       emailValue: event.target.value,
-      emailGood: emailGood,
+      emailClass: emailClass,
     })
   }
 
   handleText(event){
-    let messageGood = 'good';
-    if(event.target.value.length === 0){
-      messageGood = 'error';
-    }
     this.setState({
       messageValue: event.target.value,
-      messageGood: messageGood
+      messageClass: event.target.value.length === 0 ? 'error' : 'good'
     })
   }
 
   render(){
+    const style={
+      display: this.state.isLoading ? 'none' : 'block',
+    }
     return(
       <div className='form-box-wrapper'>
-        <div className='form-box'>
+        <Loading isLoading={this.state.isLoading}/>
+        <div className={this.state.formState} style={style}>
           <div className='title'>
             I-Send-You-Email
           </div>
           <form onSubmit={this.handleSubmit}>
             <label>
               <div>E-mail</div>
-              <input type='email' value={this.state.emailValue} onChange={this.handleEmail} className={this.state.emailGood} placeholder='example@example.com'></input>
+              <input type='email' value={this.state.emailValue} onChange={this.handleEmail} className={this.state.emailClass} placeholder='example@example.com'></input>
             </label>
             <label>
               <div>Message</div>
-              <textarea rows='3' value={this.state.messageValue} onChange={this.handleText} className={this.state.messageGood} placeholder='ie. Hello!'></textarea>
+              <textarea rows='3' value={this.state.messageValue} onChange={this.handleText} className={this.state.messageClass} placeholder='ie. Hello!'></textarea>
             </label>
-            <input className='submit' type="submit" value="Submit" />
+            <input onClick={this.handleSubmit} className='submit' type="submit" value="Submit" />
           </form>
           <div className='tiny-text'>
             Note: every email send will be sent with message at bottom "Send with<a href=''> I-Send-you-email</a>"
