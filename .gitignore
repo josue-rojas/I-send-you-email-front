@@ -21,3 +21,5 @@ yarn-error.log*
 
 #sass
 /src/style/sass/*.css
+
+/build
