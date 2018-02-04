@@ -8,6 +8,8 @@ export default class FormBox extends Component{
     this.state = {
       emailValue: '',
       emailClass: '',
+      subjectValue: '',
+      subjectClass: '',
       messageValue: '',
       messageClass: '',
       formState: 'form-box',
@@ -15,6 +17,7 @@ export default class FormBox extends Component{
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleEmail = this.handleEmail.bind(this);
+    this.handleSubject = this.handleSubject.bind(this);
     this.handleText = this.handleText.bind(this);
   }
 
@@ -22,6 +25,8 @@ export default class FormBox extends Component{
     if(this.state.emailClass === 'good' && this.state.messageClass === 'good'){
       this.setState({isLoading: true})
       this.props.submitChange(true);
+      // https://josueemail.herokuapp.com/email
+      // http://localhost:8181/email
       fetch('https://josueemail.herokuapp.com/email', {
         method: 'POST',
         headers: {
@@ -30,6 +35,7 @@ export default class FormBox extends Component{
         },
         body: JSON.stringify({
           email: this.state.emailValue,
+          subject: this.state.subjectValue,
           message: this.state.messageValue,
         })
       }).then((responce) =>{
@@ -63,6 +69,13 @@ export default class FormBox extends Component{
     })
   }
 
+  handleSubject(event){
+    this.setState({
+      subjectValue: event.target.value,
+      subjectClass: event.target.value.length === 0 ? 'error' : 'good'
+    })
+  }
+
   handleText(event){
     this.setState({
       messageValue: event.target.value,
@@ -85,6 +98,10 @@ export default class FormBox extends Component{
             <label>
               <div>E-mail</div>
               <input type='email' value={this.state.emailValue} onChange={this.handleEmail} className={this.state.emailClass} placeholder='example@example.com'></input>
+            </label>
+            <label>
+              <div>Subject</div>
+              <input type='text' value={this.state.subjectValue} onChange={this.handleSubject} className={this.state.subjectClass} placeholder='ie. sports, space, etc'></input>
             </label>
             <label>
               <div>Message</div>
